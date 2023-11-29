@@ -1,0 +1,14 @@
+py -m venv (paste your dir/name of venv)
+
+then select this in vs code interpreter 
+
+install django 
+
+django-admin startproject (give project name)
+
+Making apps
+-----------
+
+make sure u cd ur dir
+
+python manage.py startapp (your app name)
