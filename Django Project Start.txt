@@ -195,3 +195,145 @@ ________________________________________________________________________________
 
 
 13/1/23
+-------
+
+Today we learned about Shell in django.
+
+if we want to test a function we can do it in shell
+
+from home(app name).utils(the py file name) import *
+
+run_this_function()
+
+we also learned how to include data in models
+
+from home.models import *
+
+student = Student.objects.create(name = 'ahanaf' , age = 25)
+
+student_dict = {'name' : 'ahanaf', 'age' : 25}
+
+student_dict //shows the dict
+
+Student.objects.create(**student_dict**) //another way of creating object
+
+student //it shows all the objects
+
+Student.Objects.all() //total objects to access from
+
+// if we want to access object 1's name
+
+Student.objects.all()[0].name
+
+
+--------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+
+    age = models.IntegerField()
+
+    email = models.EmailField()
+
+    address = models.TextField(null=True, blank=True)
+
+    #image = models.ImageField()
+
+    #file = models.FileField()
+
+class Cars(models.Model):
+    car_name = models.CharField(max_length=500)
+
+    speed = models.IntegerField(default=50)
+    
+    def __str__(self) -> str:
+        return self.car_name #it returns the car_name
+
+
+
+
+
+----------------------------------------------------------
+
+----------------------------------------------------------
+Python 3.11.1 (tags/v3.11.1:a7a450f, Dec  6 2022, 19:58:39) [MSC v.1934 64 bit (AMD64)] on win32
+(InteractiveConsole)
+>>> from home.models import *
+>>> cars = Cars.objects.create(car_name = 'BMW' , speed = 250)
+>>> cars = Cars.objects.create(car_name = 'Honda' , speed = 350)
+>>> cars = Cars.objects.create(car_name = 'Toyota' , speed = 150)
+>>> cars
+<Cars: Cars object (3)>
+>>> Cars.objects.all()
+<QuerySet [<Cars: Cars object (1)>, <Cars: Cars object (2)>, <Cars: Cars object (3)>]>
+>>> exit()
+(amarhubEnv) PS D:\Personal\my_fun_projects\my_django\core> py manage.py shell
+Python 3.11.1 (tags/v3.11.1:a7a450f, Dec  6 2022, 19:58:39) [MSC v.1934 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from home.models import *
+>>> Cars.objects.all()
+<QuerySet [<Cars: BMW>, <Cars: Honda>, <Cars: Toyota>]>
+
+------------------------------------------------------------
+
+We learned CRUD (create read update delete)
+
+if we use def __str__(self) -> str:
+	return self.car_name //here we can use any name that we want to give our object because object 1, object 2
+				and so on is a bit confusing
+
+---------------------------
+>>> from home.models import *
+>>> cars = Cars.objects.all()
+>>> for car in cars:
+...     print(f"The Car name is {car.car_name} with speed {car.speed}")
+... 
+The Car name is BMW with speed 250
+The Car name is Honda with speed 350
+The Car name is Toyota with speed 150
+----------------------------------------
+>>> car = Cars.objects.get(id = 1)
+>>> car
+<Cars: BMW>
+---------------------------------------------
+Cars.objects.filter(id =1) #same as get but doesnt throw error
+-----------------------------------------------
+if we want to update 
+
+1st we have to get the value
+then set the value for all var
+
+ car = Cars.objects.get(id = 1)
+>>> car.car_name = 'Nissan'
+>>> car.speed = '400'
+>>> car.save()
+>>> cars = Cars.objects.all()
+>>> for car in cars:
+...     print(f"{id} The car name is {car.car_name} with speed of {car.speed}")
+...
+<built-in function id> The car name is Nissan with speed of 400
+<built-in function id> The car name is Honda with speed of 350
+<built-in function id> The car name is Toyota with speed of 150
+-------------------------------------------
+
+>>> Cars.objects.filter(id = 1).update(car_name = "Nissan GTR35")
+>>> car = Cars.objects.all()
+>>> for c in car:
+...     print(f" the name {c.car_name}")
+... 
+ the name Nissan GTR35
+ the name Honda
+ the name Toyota
+------------------------------------------------
+if we want to delete all records
+
+>>>Cars.objects.all().delete()
+-------------------------------
+>>>Cars.objects.get(id = 1).delete()
+
+>>> Cars.objects.all()
+<QuerySet [<Cars: Nissan GTR35>, <Cars: Toyota>]>
